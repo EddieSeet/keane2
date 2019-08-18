@@ -18,17 +18,52 @@ exports.list = function (req, resp) {
     )
 }
 
-exports.add = function(req, resp) {
-    if (!req.body.info) {
-         handleErr(resp);
-     } else {
-        var newinfo = req.body.info;
+exports.add = function(req, res) {
 
-        enquiryList.push(newinfo);
-        resp.status(200)
-        resp.type("application/json");
-        resp.json(newinfo);
-    }
+    //console.log(req.body)
+
+//    console.log(req.body.useremail)
+
+    var {
+        useremail,
+        userenquiry,
+        usermessage
+      } = req.body;
+
+
+    enquiry ={
+        useremail,
+        userenquiry,
+        usermessage
+    } 
+
+    Enquiry.create(enquiry)
+    .then( 
+        (data)=>{
+            console.log("enquiry added todb")
+            res.status("200")
+        }
+
+    )
+    .catch(
+        (err)=>{
+            console.log(err)
+        }
+    )
+
+
+    // if (!req.body.info) {
+    //      handleErr(resp);
+    //  } else {
+    //     var newinfo = req.body.info;
+
+    //     enquiryList.push(newinfo);
+    //     resp.status(200)
+    //     resp.type("application/json");
+    //     resp.json(newinfo);
+    // }
+
+
 }
 
 // exports.update = function(req, resp) {
