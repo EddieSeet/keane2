@@ -23,14 +23,15 @@ app.post("/api/movies",  movieCtrl.add);
 
 app.put ("/api/movies/:movie_id",  movieCtrl.update);
 //app.put ("/api/movies/:id",  movieCtrl.update2);
-
-
 app.delete("/api/movies/:movie_id",  movieCtrl.delete);
-
 app.get("/api/movies/:id",movieCtrl.getamovie);
+
+
 //genres
 app.get ("/api/genres",  genreCtrl.list);
 app.post("/api/genres",  genreCtrl.add);
+
+
 //enquiry
 app.get ("/api/enquiry",  enquiryCtrl.list);
 app.post("/api/enquiry",  enquiryCtrl.add);

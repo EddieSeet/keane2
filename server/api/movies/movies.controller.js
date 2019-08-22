@@ -60,24 +60,27 @@ exports.add = function(req, resp) {
   }
 };
 
-exports.update = function(req, resp) {
-  console.log("eh");
-  console.log(req.body.movie_id);
+exports.update = function(req, res) {
+//  console.log("eh");
+ 
 
-  // Movie.update(
-  //     {title:req.body.title},
-  //  {movie_id:req.body.movie_id}
-  // )
-  // .success(result)
+//console.log(req.body.movie_id);
+console.log(req.body)
+ 
   w = { where: { movie_id: req.body.movie_id } };
 
-  Movie.update( {
-    title: req.body.title,
-    actor: req.body.actor,
-    studio: req.body.studio,
-    genre_name: req.body.genre_name,
-    genre_desc: req.body.genre_desc
-  }, w);
+  Movie.update(
+    {
+      title: req.body.title,
+      actor: req.body.actor,
+      studio: req.body.studio,
+      genre_name: req.body.genre_name,
+      genre_desc: req.body.genre_desc
+    },
+    w
+  ).then(() => {
+    res.send("200");
+  });
 
   // if (!req.body.info){
   //     handleErr(resp);
