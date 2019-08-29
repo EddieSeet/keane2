@@ -6,13 +6,13 @@ exports.list = function (req, resp) {
     ).then(
         (result) => {
             resp.status(200)
-            resp.type("application/json");
+            // resp.type("application/json");
             resp.json(result);
         }
     ).catch(
         (err) => {
             resp.status(500)
-            resp.type("application/json");
+            // resp.type("application/json");  
             resp.json({error: true});
         }
     )

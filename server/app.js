@@ -55,10 +55,35 @@ app.post("/api/enquiry",  enquiryCtrl.add);
 //app.get ("/api/enquiry",  enquiryCtrl.list);
 
 
+var user2 = require("./database").User
+
+function authorized(request, response, next) {
+    passport.authenticate('jwt', { session: false, }, async (error, token) => {
+        if (error || !token) {
+            response.status(401).json({ message: 'Unauthorized' });
+        } 
+        // try {
+        //     const user23 = await user2.findOne({
+        //         where: { email: token.email },
+        //     });
+        //     request.user23 = user23;
+        // } catch (error) {
+        //     next(error);
+        // }
+        next();
+    })(request, response, next);   
+}
+
+
 //listing need auth
-app.use("/enquiry", passport.authenticate("jwt",{session:false}, enquiry))
+app.use("/enquiry", authorized, enquiry);
+// app.use("/enquiry", passport.authenticate("jwt",{session:false}, enquiry))
 
 
+
+
+
+//initial
 app.use('/user', passport.authenticate('jwt', {session: false}), user);
 app.use('/auth', auth);
 

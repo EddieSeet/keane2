@@ -14,21 +14,35 @@ passport.use(new LocalStrategy(
     function (email, password, cb) {
         //this one is typically a DB call. Assume that the returned user object 
         //is pre-formatted and ready for storing in JWT
+      console.log("passport1")
+      return UserModel.findAll({where:{email:email}, defaults:{password:password}})
+      .then(user => {
 
-        return UserModel.findOne({email, password})
-           .then(user => {
-               if (!user) {
-                   return cb(null, false, {message: 'Incorrect email or password.'});
-               }
-               return cb(null, user, {message: 'Logged In Successfully'});
-          })
-          .catch(err => cb(err));
+        console.log("logging user in passportjs")
+        console.log(user[0])
+        
+        console.log("not my prob")
+        if (user[0]==undefined) {
+          console.log("!user")
+              return cb(null, false, {message: 'Incorrect email or password.'});
+          }
+          
+          return cb(null, user, {message: 'Logged In Successfully'});
+     })
+     .catch(err => cb(err));
 
-        // console.log(password)
 
-        // UserModel.findAll({
-        //     where:{email: "13eddie07@gmail.com"}
-        // }).then(data=>console.log(data))
+      // return UserModel.findOne({email, password})
+      //      .then(user => {
+      //       //  console.log(user.toJSON())
+      //          if (!user) {
+      //              return cb(null, false, {message: 'Incorrect email or password.'});
+      //          }
+      //          return cb(null, user, {message: 'Logged In Successfully'});
+      //     })
+      //     .catch(err => cb(err));
+
+
 
 
     }
@@ -46,26 +60,31 @@ passport.use(new JWTStrategy({
 },
 function (jwtPayload, cb) {
 
-    //find the user in db if needed. This functionality may be omitted if you store everything you'll need in JWT payload.
-    // return UserModel.findOneById(jwtPayload.id)
-    //     .then(user => {
-    //         return cb(null, user);
-    //     })
-    //     .catch(err => {
-    //         return cb(err);
-    //     });
-
-
-    // console.log(jwtPayload)
 return UserModel.findOne({
+
   where: { email: jwtPayload.email }
 })
   .then(user => {
+    console.log("2nd passport")
+
     return cb(null, user);
   })
   .catch(err => {
+
     return cb(err);
   });
 
 }
 ));
+
+//serializeuser
+// passport.serializeUser((user, cb) => {
+// 	cb(null, user.email);
+// });
+
+// passport.deserializeUser((email, cb) => {
+// 	models.user.findOne(email, (err, user) => {
+// 		cb(err, user);
+	
+//   })
+// })
