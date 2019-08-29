@@ -22,6 +22,8 @@ database = new Sequelize(
 var Genre = require("./api/models/genre.model")(database);
 var Movie = require("./api/models/movie.model")(database);
 var Enquiry = require("./api/models/enquiry.model")(database);
+var User = require("./api/models/user.model")(database)
+
 
 database
     .sync({
@@ -35,5 +37,6 @@ database
 module.exports = {
     Genre: Genre,
     Movie: Movie,
-    Enquiry: Enquiry
+    Enquiry: Enquiry,
+    User:User
 }

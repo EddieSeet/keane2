@@ -32,16 +32,50 @@ app.get ("/api/genres",  genreCtrl.list);
 app.post("/api/genres",  genreCtrl.add);
 
 
+
+// app.post('/api/enquiry', passport.authenticate('jwt', { session: false }),
+//     function(req, res) {
+//         res.send(req.user.profile);
+//     }
+// );
+
+
+
+var user = require('./routes/user');
+var auth = require('./routes/auth');
+var enquiry = require('./routes/enquiry');
+
+
+const passport = require('passport');
+require('./passport');
+
+
 //enquiry
-app.get ("/api/enquiry",  enquiryCtrl.list);
 app.post("/api/enquiry",  enquiryCtrl.add);
+//app.get ("/api/enquiry",  enquiryCtrl.list);
+
+
+//listing need auth
+app.use("/enquiry", passport.authenticate("jwt",{session:false}, enquiry))
+
+
+app.use('/user', passport.authenticate('jwt', {session: false}), user);
+app.use('/auth', auth);
+
+
 
 app.use(function (req, resp) {
     resp.status(440);
     resp.send("Error File not Found");
 });
 
+
+
+
+
 // set port and start webserver
 app.listen('3000', function () {
     console.log("Server running at http://localhost:3000");
 });
+
+

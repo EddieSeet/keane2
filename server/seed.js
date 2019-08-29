@@ -1,10 +1,14 @@
 var configDB = require("./configDB");
 var database = require("./database");
 
+
 var apiURI = "http://localhost:3000";
 
 var Genre = database.Genre;
 var Movie = database.Movie;
+var User = database.User;
+var Enquiry = database.Enquiry;
+
 
 module.exports = function () {
     if (configDB.seed) {
@@ -25,6 +29,15 @@ module.exports = function () {
                     {movie_id: 104, title: "Ant Man",       actors: " Paul Rudd, Evangeline Lilly, Michael Douglas,", studio: "Marvel Studios",     genre_id: 203, genre_name: "Superhero", genre_desc: "Pesky little ants stealing my food everyday.",                            image_url: "assets/img/antman.jpg"},
                     {movie_id: 105, title: "Fast & Furious",     actors: "Vin Diesel, Dwayne Johnson, Jason Statham",      studio: "Furious Studios",    genre_id: 204, genre_name: "Action",    genre_desc: "These drivers know how to race fast and furious.",                image_url: "assets/img/fastnfurious.jpg"}                
                 ]).then(function () {
+                    User.bulkCreate([
+                        {email:"13eddie07@gmail.com",password:"123"}
+                    ])
+                    Enquiry.bulkCreate([
+                        {userid:"1", useremail:"13eddie07@gmail.com",userenquiry:"hi there", usermessage:"thic"} 
+                        ,{userid:"2", useremail:"13eddie06@gmail.com",userenquiry:"hi there22", usermessage:"thic3"}
+
+                    ])
+
                     console.log("done creating movie records");
                 });
             });
